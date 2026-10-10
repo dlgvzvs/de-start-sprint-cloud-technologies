@@ -1,5 +1,5 @@
 import logging
-
+from cdm_loader.repository import CdmRepository
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask import Flask
 
@@ -21,6 +21,9 @@ if __name__ == '__main__':
     app.logger.setLevel(logging.DEBUG)
 
     proc = CdmMessageProcessor(
+        config.kafka_consumer(),
+        CdmRepository(config.pg_warehouse_db()),
+        100,
         app.logger
     )
 
